@@ -59,7 +59,7 @@ public class AdBean extends EntityBean<Ad, Long> {
      * @param status Status (optional)
      * @return Liste mit den gefundenen Aufgaben
      */
-    public List<Ad> search(String search, Category category, Ad.Offertype status) {
+    public List<Ad> search(String search, Category category, String description ) {
         // Hilfsobjekt zum Bauen des Query
         CriteriaBuilder cb = this.em.getCriteriaBuilder();
         

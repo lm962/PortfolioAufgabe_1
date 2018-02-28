@@ -40,9 +40,9 @@ public class AdListServlet extends HttpServlet{
         request.setAttribute("statuses", Ad.Offertype.values());
 
         // Suchparameter aus der URL auslesen
-        String searchText = request.getParameter("search_text");
+        String searchTitle = request.getParameter("search_title");
+        String searchDescription = request.getParameter("search_description");
         String searchCategory = request.getParameter("search_category");
-        String searchStatus = request.getParameter("search_status");
 
         // Anzuzeigende Aufgaben suchen
         Category category = null;
@@ -56,16 +56,7 @@ public class AdListServlet extends HttpServlet{
             }
         }
 
-        if (searchStatus != null) {
-            try {
-                status = Ad.Offertype.valueOf(searchStatus);
-            } catch (IllegalArgumentException ex) {
-                status = null;
-            }
-
-        }
-
-        List<Ad> ads = this.adBean.search(searchText, category, Ad.Offertype.valueOf("Suche"));
+        List<Ad> ads = this.adBean.search(searchTitle, category, searchDescription);
         request.setAttribute("ads", ads);
 
         // Anfrage an die JSP weiterleiten

@@ -27,22 +27,18 @@
             <a href="<c:url value="/app/ads/edit/"/>">Inserat ändern</a>
         </div>
         <div class="menuitem">
-            <a href="<c:url value="/app/ads/new/"/>">Inserat hinzufügen</a>
-        </div>
-        <div class="menuitem">
             <a href="<c:url value="/app/categories/"/>">Kategorien bearbeiten</a>
         </div>
         <div class ="menuitem">
-            <a href="<c:url value="/app/user/edit/"/>">Benutzer bearbeiten</a>
+            <a href="<c:url value="/app/users/edit/"/>">Benutzer bearbeiten</a>
         </div>
     </jsp:attribute>
 
     <jsp:attribute name="content">
         <%-- Suchfilter --%>
         <form method="GET" class="horizontal" id="search">
-            <input type="text" name="search_description" value="${param.search_description}" placeholder="Beschreibung"/>
             <input type="text" name="search_title" value="${param.search_title}" placeholder="Titel"/>
-            <input type="text" name="search_user" value="${param.search_user}" placeholder="Ersteller"/> 
+            <input type="text" name="search_description" value="${param.search_description}" placeholder="Beschreibung"/>
             <select name="search_category">
                 <option value="">Alle Kategorien</option>
 
@@ -84,7 +80,7 @@
                     <c:forEach items="${ads}" var="ad">
                         <tr>
                             <td>
-                                <a href="<c:url value="/app/ad/${ad.id}/"/>">
+                                <a href="<c:url value="/app/ads/${ad.id}/"/>">
                                     <c:out value="${ad.title}"/>
                                 </a>
                             </td>
@@ -107,7 +103,7 @@
                                 <c:out value="${ad.pricetype}"/>
                             </td>             
                             <td>
-                                <c:out value="${user.username}"/>
+                                <c:out value="${pf1_user.username}"/>
                             </td>                     
                         </tr>
                     </c:forEach>

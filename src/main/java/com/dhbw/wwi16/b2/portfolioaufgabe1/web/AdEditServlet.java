@@ -63,7 +63,7 @@ public class AdEditServlet extends HttpServlet{
         if (session.getAttribute("ad_form") == null) {
             // Keine Formulardaten mit fehlerhaften Daten in der Session,
             // daher Formulardaten aus dem Datenbankobjekt übernehmen
-            request.setAttribute("ad_form", this.createTaskForm(ad));
+            request.setAttribute("ad_form", this.createAdForm(ad));
         }
 
         // Anfrage an die JSP weiterleiten
@@ -145,6 +145,7 @@ public class AdEditServlet extends HttpServlet{
         ad.setUser(this.userBean.getCurrentUser());
         ad.setDescription(adDescription);
         ad.setTitle(adTitle);
+        ad.setCreationdate(dueDate);
         ad.setOffertype(Ad.Offertype.valueOf(adOffertype));
         ad.setPrice(Double.parseDouble(adPrice));
         ad.setPricetype(Ad.Pricetype.valueOf(adPricetype));
@@ -241,7 +242,7 @@ public class AdEditServlet extends HttpServlet{
      * @param task Die zu bearbeitende Aufgabe
      * @return Neues, gefülltes FormValues-Objekt
      */
-    private FormValues createTaskForm(Ad ad) {
+    private FormValues createAdForm(Ad ad) {
         Map<String, String[]> values = new HashMap<>();
 
         values.put("ad_user", new String[]{

@@ -44,27 +44,35 @@
                 <%-- Eingabefelder --%>
                 <label for="ad_title">Titel:</label> 
                 <div class="side-by-side">
-                    <input type="text" name="ad_title" value="${task_form.values["ad_title"][0]}">
+                    <input type="text" name="ad_title" value="${ad_form.values["ad_title"][0]}">
                 </div>
                 <label for="ad_description">Beschreibung:</label>
                 <div class="side-by-side">
-                    <input type="text" name="ad_description" value="${task_form.values["ad_description"][0]}">
+                    <input type="text" name="ad_description" value="${ad_form.values["ad_description"][0]}">
                 </div>
-                <label for="ad_category">Kategorie:</label>
+                <label for="task_category">Kategorie:</label>
                 <div class="side-by-side">
-                    <input type="text" name="ad_category" value="${task_form.values["ad_category"][0]}">
+                    <select name="task_category">
+                        <option value="">Keine Kategorie</option>
+
+                        <c:forEach items="${categories}" var="category">
+                            <option value="${category.id}" ${ad_form.values["ad_category"][0] == category.id ? 'selected' : ''}>
+                                <c:out value="${category.name}" />
+                            </option>
+                        </c:forEach>
+                    </select>
                 </div>
                 <label for="ad_offertype">Typ:</label>
                 <div class="side-by-side">
-                    <input type="text" name="ad_offertype" value="${task_form.values["ad_offertype"][0]}">
+                    <input type="text" name="ad_offertype" value="${ad_form.values["ad_offertype"][0]}">
                 </div>
                 <label for="ad_price">Preis:</label>
                 <div class="side-by-side">
-                    <input type="text" name="ad_price" value="${task_form.values["ad_price"][0]}">
+                    <input type="text" name="ad_price" value="${ad_form.values["ad_price"][0]}">
                 </div>
                 <label for="ad_pricetype">Preisart:</label>
                 <div class="side-by-side">
-                    <input type="text" name="ad_pricetype" value="${task_form.values["ad_pricetype"][0]}">
+                    <input type="text" name="ad_pricetype" value="${ad_form.values["ad_pricetype"][0]}">
                 </div>
 
                 <%-- Button zum Abschicken --%>
