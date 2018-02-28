@@ -13,8 +13,7 @@ import com.dhbw.wwi16.b2.portfolioaufgabe1.ejb.CategoryBean;
 import com.dhbw.wwi16.b2.portfolioaufgabe1.ejb.TaskBean;
 import com.dhbw.wwi16.b2.portfolioaufgabe1.ejb.UserBean;
 import com.dhbw.wwi16.b2.portfolioaufgabe1.ejb.ValidationBean;
-import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.Task;
-import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.TaskStatus;
+import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.User;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
@@ -33,11 +32,8 @@ import javax.servlet.http.HttpSession;
 /**
  * Seite zum Anlegen oder Bearbeiten einer Aufgabe.
  */
-@WebServlet(urlPatterns = "/app/users/*")
+@WebServlet(urlPatterns = "/app/users/")
 public class UserEditServlet extends HttpServlet {
-
-    @EJB
-    TaskBean taskBean;
 
     @EJB
     CategoryBean categoryBean;
@@ -52,26 +48,22 @@ public class UserEditServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Verfügbare Kategorien und Stati für die Suchfelder ermitteln
-        request.setAttribute("categories", this.categoryBean.findAllSorted());
-        request.setAttribute("statuses", TaskStatus.values());
-
         // Zu bearbeitende Aufgabe einlesen
         HttpSession session = request.getSession();
 
-        Task task = this.getRequestedTask(request);
-        request.setAttribute("edit", task.getId() != 0);
+        User user = this.getRequestedUser(request);
+        request.setAttribute("edit", null);
                                 
-        if (session.getAttribute("task_form") == null) {
+        if (session.getAttribute("user_form") == null) {
             // Keine Formulardaten mit fehlerhaften Daten in der Session,
             // daher Formulardaten aus dem Datenbankobjekt übernehmen
-            request.setAttribute("task_form", this.createTaskForm(task));
+            request.setAttribute("user_form", this.createUserForm(user));
         }
 
         // Anfrage an die JSP weiterleiten
-        request.getRequestDispatcher("/WEB-INF/app/task_edit.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/app/user_edit.jsp").forward(request, response);
 
-        session.removeAttribute("task_form");
+        session.removeAttribute("user_form");
     }
 
     @Override
@@ -89,10 +81,10 @@ public class UserEditServlet extends HttpServlet {
 
         switch (action) {
             case "save":
-                this.saveTask(request, response);
+                this.saveUser(request, response);
                 break;
             case "delete":
-                this.deleteTask(request, response);
+                this.deleteUser(request, response);
                 break;
         }
     }
@@ -105,64 +97,39 @@ public class UserEditServlet extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    private void saveTask(HttpServletRequest request, HttpServletResponse response)
+    private void saveUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         // Formulareingaben prüfen
         List<String> errors = new ArrayList<>();
 
-        String taskCategory = request.getParameter("task_category");
-        String taskDueDate = request.getParameter("task_due_date");
-        String taskDueTime = request.getParameter("task_due_time");
-        String taskStatus = request.getParameter("task_status");
-        String taskShortText = request.getParameter("task_short_text");
-        String taskLongText = request.getParameter("task_long_text");
+        String userName = request.getParameter("user_name");
+        String userAnschrift = request.getParameter("user_anschrift");
+        String userOrt = request.getParameter("user_ort");
+        String userPlz = request.getParameter("user_plz");
+        String userEmail = request.getParameter("user_email");
+        String userTel = request.getParameter("user_tel");
 
-        Task task = this.getRequestedTask(request);
+        User user = this.getRequestedUser(request);
 
-        if (taskCategory != null && !taskCategory.trim().isEmpty()) {
-            try {
-                task.setCategory(this.categoryBean.findById(Long.parseLong(taskCategory)));
-            } catch (NumberFormatException ex) {
-                // Ungültige oder keine ID mitgegeben
-            }
-        }
-
-        Date dueDate = WebUtils.parseDate(taskDueDate);
-        Time dueTime = WebUtils.parseTime(taskDueTime);
-
-        if (dueDate != null) {
-            task.setDueDate(dueDate);
-        } else {
-            errors.add("Das Datum muss dem Format dd.mm.yyyy entsprechen.");
-        }
-
-        if (dueTime != null) {
-            task.setDueTime(dueTime);
-        } else {
-            errors.add("Die Uhrzeit muss dem Format hh:mm:ss entsprechen.");
-        }
-
-        try {
-            task.setStatus(TaskStatus.valueOf(taskStatus));
-        } catch (IllegalArgumentException ex) {
-            errors.add("Der ausgewählte Status ist nicht vorhanden.");
-        }
-
-        task.setShortText(taskShortText);
-        task.setLongText(taskLongText);
-
-        this.validationBean.validate(task, errors);
+        user.setName(userName);
+        user.setAnschrift(userAnschrift);
+        user.setOrt(userOrt);
+        user.setPlz(userPlz);
+        user.setEmail(userEmail);
+        user.setTel(userTel);
+                
+        this.validationBean.validate(user, errors);
 
         // Datensatz speichern
         if (errors.isEmpty()) {
-            this.taskBean.update(task);
+            this.userBean.update(user);
         }
 
         // Weiter zur nächsten Seite
         if (errors.isEmpty()) {
             // Keine Fehler: Startseite aufrufen
-            response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));
+            response.sendRedirect(WebUtils.appUrl(request, "/app/users/"));
         } else {
             // Fehler: Formuler erneut anzeigen
             FormValues formValues = new FormValues();
@@ -170,7 +137,7 @@ public class UserEditServlet extends HttpServlet {
             formValues.setErrors(errors);
 
             HttpSession session = request.getSession();
-            session.setAttribute("task_form", formValues);
+            session.setAttribute("user_form", formValues);
 
             response.sendRedirect(request.getRequestURI());
         }
@@ -184,15 +151,15 @@ public class UserEditServlet extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    private void deleteTask(HttpServletRequest request, HttpServletResponse response)
+    private void deleteUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         // Datensatz löschen
-        Task task = this.getRequestedTask(request);
-        this.taskBean.delete(task);
+        User user = this.getRequestedUser(request);
+        this.userBean.delete(user);
 
         // Zurück zur Übersicht
-        response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));
+        response.sendRedirect(WebUtils.appUrl(request, "/app/users/"));
     }
 
     /**
@@ -203,34 +170,11 @@ public class UserEditServlet extends HttpServlet {
      * @param request HTTP-Anfrage
      * @return Zu bearbeitende Aufgabe
      */
-    private Task getRequestedTask(HttpServletRequest request) {
+    private User getRequestedUser(HttpServletRequest request) {
         // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
-        Task task = new Task();
-        task.setOwner(this.userBean.getCurrentUser());
-        task.setDueDate(new Date(System.currentTimeMillis()));
-        task.setDueTime(new Time(System.currentTimeMillis()));
-
-        // ID aus der URL herausschneiden
-        String taskId = request.getPathInfo();
-
-        if (taskId == null) {
-            taskId = "";
-        }
-
-        taskId = taskId.substring(1);
-
-        if (taskId.endsWith("/")) {
-            taskId = taskId.substring(0, taskId.length() - 1);
-        }
-
-        // Versuchen, den Datensatz mit der übergebenen ID zu finden
-        try {
-            task = this.taskBean.findById(Long.parseLong(taskId));
-        } catch (NumberFormatException ex) {
-            // Ungültige oder keine ID in der URL enthalten
-        }
-
-        return task;
+        User user = new User();
+        
+        return user;
     }
 
     /**
@@ -243,37 +187,31 @@ public class UserEditServlet extends HttpServlet {
      * @param task Die zu bearbeitende Aufgabe
      * @return Neues, gefülltes FormValues-Objekt
      */
-    private FormValues createTaskForm(Task task) {
+    private FormValues createUserForm(User user) {
         Map<String, String[]> values = new HashMap<>();
 
-        values.put("task_owner", new String[]{
-            task.getOwner().getName()
+        values.put("user_name", new String[]{
+            user.getName()
         });
 
-        if (task.getCategory() != null) {
-            values.put("task_category", new String[]{
-                task.getCategory().toString()
-            });
-        }
-
-        values.put("task_due_date", new String[]{
-            WebUtils.formatDate(task.getDueDate())
+        values.put("user_anschrift", new String[]{
+            user.getAnschrift()
         });
 
-        values.put("task_due_time", new String[]{
-            WebUtils.formatTime(task.getDueTime())
+        values.put("user_ort", new String[]{
+            user.getOrt()
+        });
+        
+        values.put("user_plz", new String[]{
+            user.getPlz()
         });
 
-        values.put("task_status", new String[]{
-            task.getStatus().toString()
+        values.put("user_email", new String[]{
+            user.getEmail()
         });
-
-        values.put("task_short_text", new String[]{
-            task.getShortText()
-        });
-
-        values.put("task_long_text", new String[]{
-            task.getLongText()
+        
+        values.put("user_tel", new String[]{
+            user.getTel()
         });
 
         FormValues formValues = new FormValues();
