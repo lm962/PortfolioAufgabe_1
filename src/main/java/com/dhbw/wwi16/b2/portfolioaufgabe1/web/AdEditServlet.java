@@ -10,7 +10,9 @@ import com.dhbw.wwi16.b2.portfolioaufgabe1.ejb.CategoryBean;
 import com.dhbw.wwi16.b2.portfolioaufgabe1.ejb.UserBean;
 import com.dhbw.wwi16.b2.portfolioaufgabe1.ejb.ValidationBean;
 import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.Ad;
+import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.Category;
 import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.TaskStatus;
+import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.User;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -108,7 +110,6 @@ public class AdEditServlet extends HttpServlet{
         List<String> errors = new ArrayList<>();
 
         String adCategory = request.getParameter("ad_category");
-        String adUser = request.getParameter("ad_user");
         String adOffertype = request.getParameter("ad_offertype");
         String adTitle = request.getParameter("ad_title");
         String adDescription = request.getParameter("ad_description");
@@ -125,7 +126,7 @@ public class AdEditServlet extends HttpServlet{
                 // Ungültige oder keine ID mitgegeben
             }
         }
-        
+
         Date dueDate = null;
         
         if(adCreationDate == null)
@@ -138,7 +139,10 @@ public class AdEditServlet extends HttpServlet{
             } else {
                 errors.add("Das Datum muss dem Format dd.mm.yyyy entsprechen.");
             }
-
+            
+        ad.setCategory(new Category(adCategory));
+        ad.setTitle(adTitle);
+        ad.setUser(this.userBean.getCurrentUser());
         ad.setDescription(adDescription);
         ad.setTitle(adTitle);
         ad.setOffertype(Ad.Offertype.valueOf(adOffertype));
