@@ -19,12 +19,12 @@
     </jsp:attribute>
 
     <jsp:attribute name="head">
-        <link rel="stylesheet" href="<c:url value="/css/task_list.css"/>" />
+        <link rel="stylesheet" href="<c:url value="/css/ad_list.css"/>" />
     </jsp:attribute>
 
     <jsp:attribute name="menu">
         <div class="menuitem">
-            <a href="<c:url value="/app/ad/new/"/>">Aufgabe anlegen</a>
+            <a href="<c:url value="/app/ads/new/"/>">Aufgabe anlegen</a>
         </div>
 
         <div class="menuitem">
