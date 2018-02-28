@@ -24,35 +24,29 @@
 
     <jsp:attribute name="menu">
         <div class="menuitem">
-            <a href="<c:url value="/app/task/new/"/>">Aufgabe anlegen</a>
+            <a href="<c:url value="/app/ad/new/"/>">Aufgabe anlegen</a>
         </div>
 
         <div class="menuitem">
             <a href="<c:url value="/app/categories/"/>">Kategorien bearbeiten</a>
+        </div>
+        <div class ="menuitem">
+            <a href="<c:url value="/app/user/edit/"/>">Benutzer bearbeiten</a>
         </div>
     </jsp:attribute>
 
     <jsp:attribute name="content">
         <%-- Suchfilter --%>
         <form method="GET" class="horizontal" id="search">
-            <input type="text" name="search_text" value="${param.search_text}" placeholder="Beschreibung"/>
-
+            <input type="text" name="search_description" value="${param.search_description}" placeholder="Beschreibung"/>
+            <input type="text" name="search_title" value="${param.search_title}" placeholder="Titel"/>
+            <input type="text" name="search_user" value="${param.search_user}" placeholder="Ersteller"/> 
             <select name="search_category">
                 <option value="">Alle Kategorien</option>
 
                 <c:forEach items="${categories}" var="category">
                     <option value="${category.id}" ${param.search_category == category.id ? 'selected' : ''}>
                         <c:out value="${category.name}" />
-                    </option>
-                </c:forEach>
-            </select>
-
-            <select name="search_status">
-                <option value="">Alle Stati</option>
-
-                <c:forEach items="${statuses}" var="status">
-                    <option value="${status}" ${param.search_status == status ? 'selected' : ''}>
-                        <c:out value="${status.label}"/>
                     </option>
                 </c:forEach>
             </select>
@@ -64,7 +58,7 @@
 
         <%-- Gefundene Aufgaben --%>
         <c:choose>
-            <c:when test="${empty tasks}">
+            <c:when test="${empty ads}">
                 <p>
                     Es wurden keine Aufgaben gefunden. 🐈
                 </p>
@@ -75,33 +69,44 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Bezeichnung</th>
+                            <th>Titel</th>
+                            <th>Beschreibung</th>
                             <th>Kategorie</th>
-                            <th>Eigentümer</th>
-                            <th>Status</th>
-                            <th>Fällig am</th>
+                            <th>Typ</th>
+                            <th>Erstelldatum</th>
+                            <th>Preis</th>
+                            <th>Preisart</th>
+                            <th>Ersteller</th>
                         </tr>
                     </thead>
-                    <c:forEach items="${tasks}" var="task">
+                    <c:forEach items="${ads}" var="ad">
                         <tr>
                             <td>
-                                <a href="<c:url value="/app/task/${task.id}/"/>">
-                                    <c:out value="${task.shortText}"/>
+                                <a href="<c:url value="/app/ad/${ad.id}/"/>">
+                                    <c:out value="${ad.title}"/>
                                 </a>
                             </td>
                             <td>
-                                <c:out value="${task.category.name}"/>
+                                <c:out value="${ad.description}"/>
                             </td>
                             <td>
-                                <c:out value="${task.owner.username}"/>
+                                <c:out value="${ad.category.name}"/>
                             </td>
                             <td>
-                                <c:out value="${task.status.label}"/>
+                                <c:out value="${ad.offertype}"/>
                             </td>
                             <td>
-                                <c:out value="${utils.formatDate(task.dueDate)}"/>
-                                <c:out value="${utils.formatTime(task.dueTime)}"/>
+                                <c:out value="${ad.creationdate}"/>
                             </td>
+                            <td>
+                                <c:out value="${ad.price}"/>
+                            </td>
+                            <td>
+                                <c:out value="${ad.pricetype}"/>
+                            </td>             
+                            <td>
+                                <c:out value="${ad.user.name}"/>
+                            </td>                     
                         </tr>
                     </c:forEach>
                 </table>

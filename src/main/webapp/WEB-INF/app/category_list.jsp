@@ -24,7 +24,7 @@
 
     <jsp:attribute name="menu">
         <div class="menuitem">
-            <a href="<c:url value="/app/tasks/"/>">Übersicht</a>
+            <a href="<c:url value="/app/ads/"/>">Übersicht</a>
         </div>
     </jsp:attribute>
 
@@ -32,7 +32,7 @@
         <form method="post" class="stacked">
             <%-- CSRF-Token --%>
             <input type="hidden" name="csrf_token" value="${csrf_token}">
-
+            
             <%-- Feld zum Anlegen einer neuen Kategorie --%>
             <div class="column margin">
                 <label for="j_username">Neue Kategorie:</label>

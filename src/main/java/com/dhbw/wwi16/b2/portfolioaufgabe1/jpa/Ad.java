@@ -55,10 +55,10 @@ public class Ad implements Serializable {
     private Pricetype pricetype; 
     
     
-    private enum Offertype{
+    public enum Offertype{
         Biete, Suche 
     }
-    private enum Pricetype{
+    public enum Pricetype{
         Verhandlungsbasis, Festpreis
     }
     
