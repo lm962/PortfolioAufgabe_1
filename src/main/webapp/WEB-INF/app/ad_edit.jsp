@@ -42,9 +42,9 @@
                 <input type="hidden" name="csrf_token" value="${csrf_token}">
 
                 <%-- Eingabefelder --%>
-                <label for="ad_user">Titel:</label> 
+                <label for="ad_title">Titel:</label> 
                 <div class="side-by-side">
-                    <input type="text" name="ad_user" value="${task_form.values["ad_user"][0]}">
+                    <input type="text" name="ad_title" value="${task_form.values["ad_title"][0]}">
                 </div>
                 <label for="ad_description">Beschreibung:</label>
                 <div class="side-by-side">

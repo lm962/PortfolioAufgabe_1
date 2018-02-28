@@ -134,11 +134,11 @@ public class AdEditServlet extends HttpServlet{
         else
             dueDate = WebUtils.parseDate(adCreationDate);
 
-            if (dueDate != null) {
-                ad.setCreationdate(dueDate);
-            } else {
-                errors.add("Das Datum muss dem Format dd.mm.yyyy entsprechen.");
-            }
+        if (dueDate != null) {
+            ad.setCreationdate(dueDate);
+        } else {
+            errors.add("Das Datum muss dem Format dd.mm.yyyy entsprechen.");
+        }
             
         ad.setCategory(new Category(adCategory));
         ad.setTitle(adTitle);
