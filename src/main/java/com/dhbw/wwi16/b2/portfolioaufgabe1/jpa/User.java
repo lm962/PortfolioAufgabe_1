@@ -29,10 +29,16 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Datenbankklasse für einen Benutzer.
  */
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "PF1_USER")
 public class User implements Serializable {
@@ -66,35 +72,26 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     List<Task> tasks = new ArrayList<>();
+    
+    private String name;
+    private String anschrift;
+    private String ort;
+    private int plz;
+    private String email;
+    private String tel;
 
-    //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
-    public User() {
-    }
-
-    public User(String username, String password) {
+    public User(String username, String passwordHash, String name, String anschrift, String ort, int plz, String email, String tel) {
         this.username = username;
-        this.password.password = password;
-        this.passwordHash = this.hashPassword(password);
+        this.passwordHash = passwordHash;
+        this.name = name;
+        this.anschrift = anschrift;
+        this.ort = ort;
+        this.plz = plz;
+        this.email = email;
+        this.tel = tel;
     }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Setter und Getter">
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String id) {
-        this.username = id;
-    }
-
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
-    }
-    //</editor-fold>
+    
+    
 
     //<editor-fold defaultstate="collapsed" desc="Passwort setzen und prüfen">
     /**
