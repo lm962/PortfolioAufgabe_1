@@ -44,12 +44,13 @@ public class UserBean {
      * @param password
      * @throws UserBean.UserAlreadyExistsException
      */
-    public void signup(String username, String password) throws UserAlreadyExistsException {
+    
+    public void signup(String username, String password, String name, String anschrift, String ort, String plz, String email, String tel) throws UserAlreadyExistsException {
         if (em.find(User.class, username) != null) {
             throw new UserAlreadyExistsException("Der Benutzername $B ist bereits vergeben.".replace("$B", username));
         }
 
-        User user = new User(username, password);
+        User user = new User(username, password, name, anschrift, ort, plz, email, tel);
         user.addToGroup("portfolioaufgabe_1-app-user");
         em.persist(user);
     }

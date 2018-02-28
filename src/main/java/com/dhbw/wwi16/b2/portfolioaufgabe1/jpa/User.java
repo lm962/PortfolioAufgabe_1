@@ -76,11 +76,11 @@ public class User implements Serializable {
     private String name;
     private String anschrift;
     private String ort;
-    private int plz;
+    private String plz;
     private String email;
     private String tel;
 
-    public User(String username, String passwordHash, String name, String anschrift, String ort, int plz, String email, String tel) {
+    public User(String username, String passwordHash, String name, String anschrift, String ort, String plz, String email, String tel) {
         this.username = username;
         this.passwordHash = passwordHash;
         this.name = name;
