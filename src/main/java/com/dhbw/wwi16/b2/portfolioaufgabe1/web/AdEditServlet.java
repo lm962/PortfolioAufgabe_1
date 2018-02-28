@@ -125,14 +125,19 @@ public class AdEditServlet extends HttpServlet{
                 // Ungültige oder keine ID mitgegeben
             }
         }
+        
+        Date dueDate = null;
+        
+        if(adCreationDate == null)
+            dueDate = new Date(System.currentTimeMillis());
+        else
+            dueDate = WebUtils.parseDate(adCreationDate);
 
-        Date dueDate = WebUtils.parseDate(adCreationDate);
-
-        if (dueDate != null) {
-            ad.setCreationdate(dueDate);
-        } else {
-            errors.add("Das Datum muss dem Format dd.mm.yyyy entsprechen.");
-        }
+            if (dueDate != null) {
+                ad.setCreationdate(dueDate);
+            } else {
+                errors.add("Das Datum muss dem Format dd.mm.yyyy entsprechen.");
+            }
 
         ad.setDescription(adDescription);
         ad.setTitle(adTitle);
