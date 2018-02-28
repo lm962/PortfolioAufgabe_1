@@ -74,11 +74,28 @@ public class User implements Serializable {
     
     @Getter
     @Setter
+    @Column(name = "NAME", length = 64)
     private String name;
+    
+    @Getter
+    @Setter
+    @Column(name = "ANSCHRIFT", length = 64)
     private String anschrift;
+    @Getter
+    @Setter
+    @Column(name = "ORT", length = 64)
     private String ort;
+    @Getter
+    @Setter
+    @Column(name = "PLZ", length = 64)
     private String plz;
+    @Getter
+    @Setter
+    @Column(name = "EMAIL", length = 64)
     private String email;
+    @Getter
+    @Setter
+    @Column(name = "TEL", length = 64)
     private String tel;
 
     public User(String username, String password, String name, String anschrift, String ort, String plz, String email, String tel) {
