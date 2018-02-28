@@ -36,8 +36,7 @@ import lombok.Setter;
 /**
  * Datenbankklasse für einen Benutzer.
  */
-@Getter
-@Setter
+
 @NoArgsConstructor
 @Entity
 @Table(name = "PF1_USER")
@@ -73,6 +72,8 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     List<Task> tasks = new ArrayList<>();
     
+    @Getter
+    @Setter
     private String name;
     private String anschrift;
     private String ort;
@@ -80,9 +81,10 @@ public class User implements Serializable {
     private String email;
     private String tel;
 
-    public User(String username, String passwordHash, String name, String anschrift, String ort, String plz, String email, String tel) {
+    public User(String username, String password, String name, String anschrift, String ort, String plz, String email, String tel) {
         this.username = username;
-        this.passwordHash = passwordHash;
+        this.password.password = password;
+        this.passwordHash = this.hashPassword(password);
         this.name = name;
         this.anschrift = anschrift;
         this.ort = ort;

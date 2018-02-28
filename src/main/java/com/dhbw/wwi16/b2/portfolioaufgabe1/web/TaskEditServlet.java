@@ -247,7 +247,7 @@ public class TaskEditServlet extends HttpServlet {
         Map<String, String[]> values = new HashMap<>();
 
         values.put("task_owner", new String[]{
-            task.getOwner().getUsername()
+            task.getOwner().getName()
         });
 
         if (task.getCategory() != null) {

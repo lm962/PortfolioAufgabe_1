@@ -236,7 +236,7 @@ public class AdEditServlet extends HttpServlet{
         Map<String, String[]> values = new HashMap<>();
 
         values.put("ad_user", new String[]{
-            ad.getUser().getUsername()
+            ad.getUser().getName()
         });
 
         if (ad.getCategory() != null) {
