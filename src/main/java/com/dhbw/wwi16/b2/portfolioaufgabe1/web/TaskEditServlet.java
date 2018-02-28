@@ -33,7 +33,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Seite zum Anlegen oder Bearbeiten einer Aufgabe.
  */
-@WebServlet(urlPatterns = "/app/task/*")
+@WebServlet(urlPatterns = "/app/tasks/*")
 public class TaskEditServlet extends HttpServlet {
 
     @EJB

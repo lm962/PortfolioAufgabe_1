@@ -30,7 +30,8 @@ import lombok.Setter;
 @Entity
 public class Ad implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "ad_ids")
+    @TableGenerator(name = "ad_ids", initialValue = 0, allocationSize = 50)
     private Long id;   
     
     @ManyToOne

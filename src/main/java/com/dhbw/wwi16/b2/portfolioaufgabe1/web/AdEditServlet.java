@@ -10,11 +10,9 @@ import com.dhbw.wwi16.b2.portfolioaufgabe1.ejb.CategoryBean;
 import com.dhbw.wwi16.b2.portfolioaufgabe1.ejb.UserBean;
 import com.dhbw.wwi16.b2.portfolioaufgabe1.ejb.ValidationBean;
 import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.Ad;
-import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.Task;
 import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.TaskStatus;
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -211,7 +209,9 @@ public class AdEditServlet extends HttpServlet{
         if (adId.endsWith("/")) {
             adId = adId.substring(0, adId.length() - 1);
         }
-
+        
+        if(ad.getId() == null)
+            ad.setId(0L);
         // Versuchen, den Datensatz mit der übergebenen ID zu finden
         try {
             ad = this.adBean.findById(Long.parseLong(adId));
