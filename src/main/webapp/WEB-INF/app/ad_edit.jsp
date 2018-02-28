@@ -42,29 +42,29 @@
                 <input type="hidden" name="csrf_token" value="${csrf_token}">
 
                 <%-- Eingabefelder --%>
-                <label for="task_owner">Titel:</label> 
+                <label for="ad_user">Titel:</label> 
                 <div class="side-by-side">
-                    <input type="text" name="task_owner" value="${task_form.values["task_owner"][0]}" readonly="readonly">
+                    <input type="text" name="ad_user" value="${task_form.values["ad_user"][0]}">
                 </div>
-                <label for="task_owner">Beschreibung:</label>
+                <label for="ad_description">Beschreibung:</label>
                 <div class="side-by-side">
-                    <input type="text" name="task_owner" value="${task_form.values["task_owner"][0]}" readonly="readonly">
+                    <input type="text" name="ad_description" value="${task_form.values["ad_description"][0]}">
                 </div>
-                <label for="task_owner">Kategorie:</label>
+                <label for="ad_category">Kategorie:</label>
                 <div class="side-by-side">
-                    <input type="text" name="task_owner" value="${task_form.values["task_owner"][0]}" readonly="readonly">
+                    <input type="text" name="ad_category" value="${task_form.values["ad_category"][0]}">
                 </div>
-                <label for="task_owner">Typ:</label>
+                <label for="ad_offertype">Typ:</label>
                 <div class="side-by-side">
-                    <input type="text" name="task_owner" value="${task_form.values["task_owner"][0]}" readonly="readonly">
+                    <input type="text" name="ad_offertype" value="${task_form.values["ad_offertype"][0]}">
                 </div>
-                <label for="task_owner">Preis:</label>
+                <label for="ad_price">Preis:</label>
                 <div class="side-by-side">
-                    <input type="text" name="task_owner" value="${task_form.values["task_owner"][0]}" readonly="readonly">
+                    <input type="text" name="ad_price" value="${task_form.values["ad_price"][0]}">
                 </div>
-                <label for="task_owner">Preisart:</label>
+                <label for="ad_pricetype">Preisart:</label>
                 <div class="side-by-side">
-                    <input type="text" name="task_owner" value="${task_form.values["task_owner"][0]}" readonly="readonly">
+                    <input type="text" name="ad_pricetype" value="${task_form.values["ad_pricetype"][0]}">
                 </div>
 
                 <%-- Button zum Abschicken --%>

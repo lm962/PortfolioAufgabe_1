@@ -24,9 +24,11 @@
 
     <jsp:attribute name="menu">
         <div class="menuitem">
-            <a href="<c:url value="/app/ads/new/"/>">Aufgabe anlegen</a>
+            <a href="<c:url value="/app/ads/edit/"/>">Inserat ändern</a>
         </div>
-
+        <div class="menuitem">
+            <a href="<c:url value="/app/ads/new/"/>">Inserat hinzufügen</a>
+        </div>
         <div class="menuitem">
             <a href="<c:url value="/app/categories/"/>">Kategorien bearbeiten</a>
         </div>
