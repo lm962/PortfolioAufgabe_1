@@ -50,9 +50,9 @@
                 <div class="side-by-side">
                     <input type="text" name="ad_description" value="${ad_form.values["ad_description"][0]}">
                 </div>
-                <label for="task_category">Kategorie:</label>
+                <label for="ad_category">Kategorie:</label>
                 <div class="side-by-side">
-                    <select name="task_category">
+                    <select name="ad_category">
                         <option value="">Keine Kategorie</option>
 
                         <c:forEach items="${categories}" var="category">

@@ -15,6 +15,7 @@ import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.TaskStatus;
 import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.User;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,31 +40,32 @@ public class AdEditServlet extends HttpServlet{
 
     @EJB
     CategoryBean categoryBean;
-    
+
     @EJB
     UserBean userBean;
 
     @EJB
     ValidationBean validationBean;
-    
+
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         // Verfügbare Kategorien und Stati für die Suchfelder ermitteln
         request.setAttribute("categories", this.categoryBean.findAllSorted());
-        request.setAttribute("statuses", TaskStatus.values());
 
         // Zu bearbeitende Aufgabe einlesen
         HttpSession session = request.getSession();
 
-        Ad ad = this.getRequestedAd(request);
-        request.setAttribute("edit", ad.getId() != 0);
+        Ad ad = this.getRequestedTask(request);
+        
+        if(ad.getId() != null)
+            request.setAttribute("edit", ad.getId() != 0);
                                 
         if (session.getAttribute("ad_form") == null) {
             // Keine Formulardaten mit fehlerhaften Daten in der Session,
             // daher Formulardaten aus dem Datenbankobjekt übernehmen
-            request.setAttribute("ad_form", this.createAdForm(ad));
+            request.setAttribute("ad_form", this.createTaskForm(ad));
         }
 
         // Anfrage an die JSP weiterleiten
@@ -87,10 +89,10 @@ public class AdEditServlet extends HttpServlet{
 
         switch (action) {
             case "save":
-                this.saveAd(request, response);
+                this.saveTask(request, response);
                 break;
             case "delete":
-                this.deleteAd(request, response);
+                this.deleteTask(request, response);
                 break;
         }
     }
@@ -103,7 +105,7 @@ public class AdEditServlet extends HttpServlet{
      * @throws ServletException
      * @throws IOException
      */
-    private void saveAd(HttpServletRequest request, HttpServletResponse response)
+    private void saveTask(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         // Formulareingaben prüfen
@@ -114,10 +116,11 @@ public class AdEditServlet extends HttpServlet{
         String adTitle = request.getParameter("ad_title");
         String adDescription = request.getParameter("ad_description");
         String adCreationDate = request.getParameter("ad_creationdate");
+        String adCreationTime = request.getParameter("ad_creationtime");
         String adPrice = request.getParameter("ad_price");
         String adPricetype = request.getParameter("ad_pricetype");
 
-        Ad ad = this.getRequestedAd(request);
+        Ad ad = this.getRequestedTask(request);
 
         if (adCategory != null && !adCategory.trim().isEmpty()) {
             try {
@@ -126,30 +129,45 @@ public class AdEditServlet extends HttpServlet{
                 // Ungültige oder keine ID mitgegeben
             }
         }
-
         Date dueDate = null;
-        
-        if(adCreationDate == null)
-            dueDate = new Date(System.currentTimeMillis());
-        else
+        Time dueTime = null;
+        if(adCreationDate != null)
             dueDate = WebUtils.parseDate(adCreationDate);
-
+        else
+            dueDate = new Date(System.currentTimeMillis());
+        if(adCreationTime != null) 
+            dueTime = WebUtils.parseTime(adCreationTime);
+        else
+            dueTime = new Time(System.currentTimeMillis());
+        
         if (dueDate != null) {
             ad.setCreationdate(dueDate);
         } else {
             errors.add("Das Datum muss dem Format dd.mm.yyyy entsprechen.");
         }
-            
-        ad.setCategory(new Category(adCategory));
+
+        if (dueTime != null) {
+            ad.setCreationtime(dueTime);
+        } else {
+            errors.add("Die Uhrzeit muss dem Format hh:mm:ss entsprechen.");
+        }
+
+        try {
+          ad.setOffertype(Ad.Offertype.valueOf(adOffertype));
+        } catch (IllegalArgumentException ex) {
+           errors.add("Die ausgewählte Art ist nicht vorhanden.");
+        }
+       
+       try {
+          ad.setPricetype(Ad.Pricetype.valueOf(adPricetype));
+        } catch (IllegalArgumentException ex) {
+           errors.add("Die ausgewählte Preisart ist nicht vorhanden.");
+        }
+
         ad.setTitle(adTitle);
-        ad.setUser(this.userBean.getCurrentUser());
         ad.setDescription(adDescription);
-        ad.setTitle(adTitle);
-        ad.setCreationdate(dueDate);
-        ad.setOffertype(Ad.Offertype.valueOf(adOffertype));
         ad.setPrice(Double.parseDouble(adPrice));
-        ad.setPricetype(Ad.Pricetype.valueOf(adPricetype));
-               
+
         this.validationBean.validate(ad, errors);
 
         // Datensatz speichern
@@ -182,12 +200,12 @@ public class AdEditServlet extends HttpServlet{
      * @throws ServletException
      * @throws IOException
      */
-    private void deleteAd(HttpServletRequest request, HttpServletResponse response)
+    private void deleteTask(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         // Datensatz löschen
-        Ad ad = this.getRequestedAd(request);
-        this.adBean.delete(ad);
+        Ad task = this.getRequestedTask(request);
+        this.adBean.delete(task);
 
         // Zurück zur Übersicht
         response.sendRedirect(WebUtils.appUrl(request, "/app/ads/"));
@@ -201,35 +219,34 @@ public class AdEditServlet extends HttpServlet{
      * @param request HTTP-Anfrage
      * @return Zu bearbeitende Aufgabe
      */
-    private Ad getRequestedAd(HttpServletRequest request) {
+    private Ad getRequestedTask(HttpServletRequest request) {
         // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
-        Ad ad = new Ad();
-        ad.setUser(this.userBean.getCurrentUser());
-        ad.setCreationdate(new Date(System.currentTimeMillis()));
+        Ad task = new Ad();
+        task.setUser(this.userBean.getCurrentUser());
+        task.setCreationdate(new Date(System.currentTimeMillis()));
+        task.setCreationtime(new Time(System.currentTimeMillis()));
 
         // ID aus der URL herausschneiden
-        String adId = request.getPathInfo();
+        String taskId = request.getPathInfo();
 
-        if (adId == null) {
-            adId = "";
+        if (taskId == null) {
+            taskId = "";
         }
 
-        adId = adId.substring(1);
+        taskId = taskId.substring(1);
 
-        if (adId.endsWith("/")) {
-            adId = adId.substring(0, adId.length() - 1);
+        if (taskId.endsWith("/")) {
+            taskId = taskId.substring(0, taskId.length() - 1);
         }
-        
-        if(ad.getId() == null)
-            ad.setId(0L);
+
         // Versuchen, den Datensatz mit der übergebenen ID zu finden
         try {
-            ad = this.adBean.findById(Long.parseLong(adId));
+            task = this.adBean.findById(Long.parseLong(taskId));
         } catch (NumberFormatException ex) {
             // Ungültige oder keine ID in der URL enthalten
         }
 
-        return ad;
+        return task;
     }
 
     /**
@@ -242,10 +259,10 @@ public class AdEditServlet extends HttpServlet{
      * @param task Die zu bearbeitende Aufgabe
      * @return Neues, gefülltes FormValues-Objekt
      */
-    private FormValues createAdForm(Ad ad) {
+    private FormValues createTaskForm(Ad ad) {
         Map<String, String[]> values = new HashMap<>();
 
-        values.put("ad_user", new String[]{
+         values.put("ad_user", new String[]{
             ad.getUser().getName()
         });
 
@@ -258,7 +275,11 @@ public class AdEditServlet extends HttpServlet{
         values.put("ad_creationdate", new String[]{
             WebUtils.formatDate(ad.getCreationdate())
         });
-
+        
+        values.put("ad_creationtime", new String[]{
+            WebUtils.formatTime(ad.getCreationtime())
+        });
+        
         values.put("ad_title", new String[]{
             ad.getTitle()
         });
@@ -274,4 +295,5 @@ public class AdEditServlet extends HttpServlet{
         formValues.setValues(values);
         return formValues;
     }
+
 }

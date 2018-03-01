@@ -102,9 +102,15 @@ public class User implements Serializable {
         this.email = email;
         this.tel = tel;
     }
-    
-    
+   
+    public String getUsername() {
+        return username;
+    }
 
+    public void setUsername(String id) {
+        this.username = id;
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="Passwort setzen und prüfen">
     /**
      * Berechnet der Hash-Wert zu einem Passwort.

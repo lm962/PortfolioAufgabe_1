@@ -24,7 +24,7 @@
 
     <jsp:attribute name="menu">
         <div class="menuitem">
-            <a href="<c:url value="/app/ads/edit/"/>">Inserat ändern</a>
+            <a href="<c:url value="/app/ads/edit/"/>">Inserat hinzufügen</a>
         </div>
         <div class="menuitem">
             <a href="<c:url value="/app/categories/"/>">Kategorien bearbeiten</a>
@@ -94,7 +94,8 @@
                                 <c:out value="${ad.offertype}"/>
                             </td>
                             <td>
-                                <c:out value="${ad.creationdate}"/>
+                                <c:out value="${utils.formatDate(ad.creationdate)}"/>
+                                <c:out value="${utils.formatTime(ad.creationtime)}"/>
                             </td>
                             <td>
                                 <c:out value="${ad.price}"/>
