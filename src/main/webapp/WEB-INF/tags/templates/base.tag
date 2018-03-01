@@ -22,7 +22,7 @@
     <head>
         <meta charset="utf-8" />
 
-        <title>Aufgabenliste: ${title}</title>
+        <title>Anzeigenliste: ${title}</title>
 
         <link rel="stylesheet" href="<c:url value="/fontello/css/fontello.css"/>" />
         <link rel="stylesheet" href="<c:url value="/css/main.css"/>" />
@@ -36,7 +36,7 @@
             <%-- Titelzeile --%>
             <div id="titlebar">
                 <div class="appname">
-                    Aufgabenliste
+                    Anzeigenliste
                 </div>
                 <div class="content">
                     ${title}

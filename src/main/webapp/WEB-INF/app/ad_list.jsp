@@ -54,11 +54,11 @@
             </button>
         </form>
 
-        <%-- Gefundene Aufgaben --%>
+        <%-- Gefundene Anzeigen --%>
         <c:choose>
             <c:when test="${empty ads}">
                 <p>
-                    Es wurden keine Aufgaben gefunden. 🐈
+                    Es wurden keine Anzeigen gefunden. 🐈
                 </p>
             </c:when>
             <c:otherwise>

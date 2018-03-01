@@ -12,14 +12,7 @@
 
 <template:base>
     <jsp:attribute name="title">
-        <c:choose>
-            <c:when test="${edit}">
-                Aufgabe bearbeiten
-            </c:when>
-            <c:otherwise>
-                Aufgabe anlegen
-            </c:otherwise>
-        </c:choose>
+        Benutzer bearbeiten
     </jsp:attribute>
 
     <jsp:attribute name="head">
@@ -47,7 +40,8 @@
                 <div class="side-by-side">
                     <input type="text" name="user_name" value="${user_form.values["user_name"][0]}">
                 </div>
-                <label for="user_anschrift">Anschrift:</label>
+                <label>Anschrift</label> 
+                <label for="user_anschrift">Straße:</label>
                 <div class="side-by-side">
                     <input type="text" name="user_anschrift" value="${user_form.values["user_anschrift"][0]}">
                 </div>
