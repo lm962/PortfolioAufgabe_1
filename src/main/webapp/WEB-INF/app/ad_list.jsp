@@ -103,7 +103,7 @@
                                 <c:out value="${ad.pricetype}"/>
                             </td>             
                             <td>
-                                <c:out value="${pf1_user.username}"/>
+                                <c:out value="${ad.user.username}"/>
                             </td>                     
                         </tr>
                     </c:forEach>
