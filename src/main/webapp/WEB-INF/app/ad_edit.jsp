@@ -80,12 +80,12 @@
 
                 <%-- Button zum Abschicken --%>
                 <div class="side-by-side">
-                    <button class="icon-pencil" type="submit" name="action" value="save">
+                    <button class="icon-pencil" type="submit" name="action" value="save"${disable}>
                         Sichern
                     </button>
 
                     <c:if test="${edit}">
-                        <button class="icon-trash" type="submit" name="action" value="delete">
+                        <button class="icon-trash" type="submit" name="action" value="delete"${disable}>
                             Löschen
                         </button>
                     </c:if>
@@ -103,11 +103,3 @@
         </form>
     </jsp:attribute>
 </template:base>
-        
-        <div id="suffix">
-            <c:if test="${edit}">
-                <label>Angelegt am:                 
-                <script> document.write(new Date().toLocaleDateString()); </script>
-                </label>
-            </c:if>
-        </div>
