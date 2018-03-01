@@ -72,13 +72,6 @@
                     <button class="icon-pencil" type="submit" name="action" value="save">
                         Sichern
                     </button>
-
-                    <c:if test="${edit}">
-                        <button class="icon-trash" type="submit" name="action" value="delete">
-                            Löschen
-                        </button>
-                    </c:if>
-                </div>
             </div>
 
             <%-- Fehlermeldungen --%>

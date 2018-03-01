@@ -123,7 +123,7 @@ public class UserEditServlet extends HttpServlet {
         // Weiter zur nächsten Seite
         if (errors.isEmpty()) {
             // Keine Fehler: Startseite aufrufen
-            response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));
+            response.sendRedirect(WebUtils.appUrl(request, "/app/ads/"));
         } else {
             // Fehler: Formuler erneut anzeigen
             FormValues formValues = new FormValues();
@@ -137,19 +137,13 @@ public class UserEditServlet extends HttpServlet {
         }
     }
 
-    /**
-     * Neues FormValues-Objekt erzeugen und mit den Daten eines aus der
-     * Datenbank eingelesenen Datensatzes füllen. Dadurch müssen in der JSP
-     * keine hässlichen Fallunterscheidungen gemacht werden, ob die Werte im
-     * Formular aus der Entity oder aus einer vorherigen Formulareingabe
-     * stammen.
-     *
-     * @param task Die zu bearbeitende Aufgabe
-     * @return Neues, gefülltes FormValues-Objekt
-     */
     private FormValues createUserForm(User user) {
         Map<String, String[]> values = new HashMap<>();
-
+        
+        values.put("user_username", new String[]{
+            user.getUsername()
+        });
+        
         values.put("user_name", new String[]{
             user.getName()
         });
