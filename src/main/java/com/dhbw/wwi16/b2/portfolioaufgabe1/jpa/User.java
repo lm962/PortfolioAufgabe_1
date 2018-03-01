@@ -84,7 +84,7 @@ public class User implements Serializable {
     private String ort;
     
     @Column(name = "PLZ", length = 64)
-    @Pattern (regexp = "[0-9]{5}")
+    @Pattern (regexp = "[0-9]{5}", message = "Die Postleitzahl muss aus 5 ganzen Zahlen bestehen")
     private String plz;
     
     @Column(name = "EMAIL", length = 64)
