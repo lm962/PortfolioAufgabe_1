@@ -175,7 +175,12 @@ public class AdEditServlet extends HttpServlet{
 
         ad.setTitle(adTitle);
         ad.setDescription(adDescription);
+        try {
         ad.setPrice(Double.parseDouble(adPrice));
+        }
+        catch (NumberFormatException nfe) {
+            adPrice = "0.0";
+        }
 
         this.validationBean.validate(ad, errors);
 
