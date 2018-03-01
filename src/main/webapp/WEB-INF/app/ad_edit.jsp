@@ -19,7 +19,7 @@
             <c:when test="${edit}">
                 Anzeige bearbeiten
             </c:when>
-            <c:otherwise>
+            <c:otherwise> 
                 Anzeige anlegen
             </c:otherwise>
         </c:choose>
@@ -42,14 +42,6 @@
                 <input type="hidden" name="csrf_token" value="${csrf_token}">
 
                 <%-- Eingabefelder --%>
-                <label for="ad_title">Titel:</label> 
-                <div class="side-by-side">
-                    <input type="text" name="ad_title" value="${ad_form.values["ad_title"][0]}">
-                </div>
-                <label for="ad_description">Beschreibung:</label>
-                <div class="side-by-side">
-                    <input type="text" name="ad_description" value="${ad_form.values["ad_description"][0]}">
-                </div>
                 <label for="ad_category">Kategorie:</label>
                 <div class="side-by-side">
                     <select name="ad_category">
@@ -62,23 +54,28 @@
                         </c:forEach>
                     </select>
                 </div>
-                <label for="ad_offertype">Preisart</label>
+                <label for="ad_offertype">Angebotstyp:</label>
                 <div class="side-by-side">
                     <select name="ad_offertype" value="${ad_form.values["ad_offertype"][0]}">
                         <option value="Suche">Suche</option>
                         <option value="Biete">Biete</option>
                     </select>
                 </div>
-                <label for="ad_price">Preis:</label>
+                <label for="ad_title">Titel:</label> 
                 <div class="side-by-side">
-                    <input type="text" name="ad_price" value="${ad_form.values["ad_price"][0]}">
+                    <input type="text" name="ad_title" value="${ad_form.values["ad_title"][0]}">
                 </div>
-                <label for="ad_pricetype">Preisart</label>
+                <label for="ad_description">Beschreibung:</label>
+                <div class="side-by-side">
+                    <input type="text" name="ad_description" value="${ad_form.values["ad_description"][0]}">
+                </div>
+                <label for="ad_price">Preis:</label>
                 <div class="side-by-side">
                     <select name="ad_pricetype" value="${ad_form.values["ad_pricetype"][0]}">
                         <option value="Festpreis">Festpreis</option>
                         <option value="Verhandlungbasis">Verhandlungbasis</option>
                     </select>
+                    <input type="text" name="ad_price" value="${ad_form.values["ad_price"][0]}">
                 </div>
 
                 <%-- Button zum Abschicken --%>
@@ -106,3 +103,11 @@
         </form>
     </jsp:attribute>
 </template:base>
+        
+        <div id="suffix">
+            <c:if test="${edit}">
+                <label>Angelegt am:                 
+                <script> document.write(new Date().toLocaleDateString()); </script>
+                </label>
+            </c:if>
+        </div>

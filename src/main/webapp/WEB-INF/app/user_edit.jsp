@@ -40,18 +40,15 @@
                 <div class="side-by-side">
                     <input type="text" name="user_name" value="${user_form.values["user_name"][0]}">
                 </div>
-                <label>Anschrift</label> 
+                <label id = "Anschrift">Anschrift</label> 
                 <label for="user_anschrift">Straße:</label>
                 <div class="side-by-side">
                     <input type="text" name="user_anschrift" value="${user_form.values["user_anschrift"][0]}">
                 </div>
-                <label for="user_ort">Ort:</label>
-                <div class="side-by-side">
-                    <input type="text" name="user_ort" value="${user_form.values["user_ort"][0]}">
-                </div>
-                <label for="user_plz">Postleitzahl:</label>
+                <label for="user_ort">Postleitzahl und Ort</label>
                 <div class="side-by-side">
                     <input type="text" name="user_plz" value="${user_form.values["user_plz"][0]}">
+                    <input type="text" name="user_ort" value="${user_form.values["user_ort"][0]}">
                 </div>
                 <label for="user_email">E-mail:</label>
                 <div class="side-by-side">
