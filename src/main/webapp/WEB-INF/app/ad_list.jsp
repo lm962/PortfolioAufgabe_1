@@ -38,7 +38,6 @@
         <%-- Suchfilter --%>
         <form method="GET" class="horizontal" id="search">
             <input type="text" name="search_title" value="${param.search_title}" placeholder="Titel"/>
-            <input type="text" name="search_description" value="${param.search_description}" placeholder="Beschreibung"/>
             <select name="search_category">
                 <option value="">Alle Kategorien</option>
 
@@ -48,7 +47,6 @@
                     </option>
                 </c:forEach>
             </select>
-
             <button class="icon-search" type="submit">
                 Suchen
             </button>

@@ -9,11 +9,11 @@
  */
 package com.dhbw.wwi16.b2.portfolioaufgabe1.web;
 
+import com.dhbw.wwi16.b2.portfolioaufgabe1.ejb.AdBean;
 import com.dhbw.wwi16.b2.portfolioaufgabe1.ejb.CategoryBean;
-import com.dhbw.wwi16.b2.portfolioaufgabe1.ejb.TaskBean;
 import com.dhbw.wwi16.b2.portfolioaufgabe1.ejb.ValidationBean;
+import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.Ad;
 import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.Category;
-import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.Task;
 import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;
@@ -37,7 +37,7 @@ public class CategoryListServlet extends HttpServlet {
     CategoryBean categoryBean;
     
     @EJB
-    TaskBean taskBean;
+    AdBean adBean;
 
     @EJB
     ValidationBean validationBean;
@@ -150,9 +150,9 @@ public class CategoryListServlet extends HttpServlet {
             }
             
             // Bei allen betroffenen Aufgaben, den Bezug zur Kategorie aufheben
-            category.getTasks().forEach((Task task) -> {
+            category.getAds().forEach((Ad task) -> {
                 task.setCategory(null);
-                this.taskBean.update(task);
+                this.adBean.update(task);
             });
             
             // Und weg damit

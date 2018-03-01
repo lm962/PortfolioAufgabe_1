@@ -7,8 +7,6 @@ package com.dhbw.wwi16.b2.portfolioaufgabe1.ejb;
 
 import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.Ad;
 import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.Category;
-import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.Task;
-import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.TaskStatus;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
@@ -42,7 +40,7 @@ public class AdBean extends EntityBean<Ad, Long> {
      * @param username Benutzername
      * @return Alle Aufgaben des Benutzers
      */
-    public List<Task> findByUsername(String username) {
+    public List<Ad> findByUsername(String username) {
         return em.createQuery("SELECT t FROM Task t WHERE t.owner.username = :username ORDER BY t.dueDate, t.dueTime")
                  .setParameter("username", username)
                  .getResultList();
@@ -59,7 +57,7 @@ public class AdBean extends EntityBean<Ad, Long> {
      * @param status Status (optional)
      * @return Liste mit den gefundenen Aufgaben
      */
-    public List<Ad> search(String search, Category category, String description ) {
+    public List<Ad> search(String search, Category category) {
         // Hilfsobjekt zum Bauen des Query
         CriteriaBuilder cb = this.em.getCriteriaBuilder();
         

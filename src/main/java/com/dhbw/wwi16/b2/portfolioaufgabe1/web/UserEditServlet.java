@@ -10,13 +10,10 @@
 package com.dhbw.wwi16.b2.portfolioaufgabe1.web;
 
 import com.dhbw.wwi16.b2.portfolioaufgabe1.ejb.CategoryBean;
-import com.dhbw.wwi16.b2.portfolioaufgabe1.ejb.TaskBean;
 import com.dhbw.wwi16.b2.portfolioaufgabe1.ejb.UserBean;
 import com.dhbw.wwi16.b2.portfolioaufgabe1.ejb.ValidationBean;
 import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.User;
 import java.io.IOException;
-import java.sql.Date;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -28,6 +28,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -70,8 +71,8 @@ public class User implements Serializable {
     @Column(name = "GROUPNAME")
     List<String> groups = new ArrayList<>();
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    List<Task> tasks = new ArrayList<>();
+//    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+//    List<Ad> tasks = new ArrayList<>();
     
     @Column(name = "NAME", length = 64)
     private String name;
@@ -83,12 +84,15 @@ public class User implements Serializable {
     private String ort;
     
     @Column(name = "PLZ", length = 64)
+    @Pattern (regexp = "[0-9]{5}")
     private String plz;
     
     @Column(name = "EMAIL", length = 64)
+    @Pattern(regexp = "(\\w|\\W)*@(\\w|\\W)*.(\\w|\\W){1,4}", message ="Die E-Mail muss muster@muster.de")
     private String email;
     
     @Column(name = "TEL", length = 64)
+    @Pattern (regexp = "[0-9]*")
     private String tel;
 
     public User(String username, String password, String name, String anschrift, String ort, String plz, String email, String tel) {

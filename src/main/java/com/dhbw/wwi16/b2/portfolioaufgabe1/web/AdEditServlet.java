@@ -10,9 +10,6 @@ import com.dhbw.wwi16.b2.portfolioaufgabe1.ejb.CategoryBean;
 import com.dhbw.wwi16.b2.portfolioaufgabe1.ejb.UserBean;
 import com.dhbw.wwi16.b2.portfolioaufgabe1.ejb.ValidationBean;
 import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.Ad;
-import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.Category;
-import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.TaskStatus;
-import com.dhbw.wwi16.b2.portfolioaufgabe1.jpa.User;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
@@ -47,6 +44,18 @@ public class AdEditServlet extends HttpServlet{
     @EJB
     ValidationBean validationBean;
 
+    public void readOnly (HttpServletRequest request) throws ServletException, IOException {
+        Ad ad = this.getRequestedTask(request);
+        if (ad.getUser().getUsername().equals(userBean.getCurrentUser().getUsername()) || ad.getUser() == null) {
+        
+        request.setAttribute("readonlii","");    
+        }
+        else {
+            String y = "readonly = 'readonly'";
+        request.setAttribute("readonlii",y);  
+        }
+    }
+        
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -67,7 +76,7 @@ public class AdEditServlet extends HttpServlet{
             // daher Formulardaten aus dem Datenbankobjekt übernehmen
             request.setAttribute("ad_form", this.createTaskForm(ad));
         }
-
+        readOnly(request);
         // Anfrage an die JSP weiterleiten
         request.getRequestDispatcher("/WEB-INF/app/ad_edit.jsp").forward(request, response);
 
