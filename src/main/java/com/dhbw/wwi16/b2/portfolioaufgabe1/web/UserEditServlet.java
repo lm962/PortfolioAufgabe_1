@@ -51,12 +51,10 @@ public class UserEditServlet extends HttpServlet {
         // Zu bearbeitende Aufgabe einlesen
         HttpSession session = request.getSession();
 
-        User user = this.getRequestedUser(request);
-        request.setAttribute("edit", null);
+        User user = this.userBean.getCurrentUser();
+
                                 
-        if (session.getAttribute("user_form") == null) {
-            // Keine Formulardaten mit fehlerhaften Daten in der Session,
-            // daher Formulardaten aus dem Datenbankobjekt übernehmen
+         if (session.getAttribute("user_form") == null) {
             request.setAttribute("user_form", this.createUserForm(user));
         }
 
@@ -83,9 +81,6 @@ public class UserEditServlet extends HttpServlet {
             case "save":
                 this.saveUser(request, response);
                 break;
-            case "delete":
-                this.deleteUser(request, response);
-                break;
         }
     }
 
@@ -110,7 +105,7 @@ public class UserEditServlet extends HttpServlet {
         String userEmail = request.getParameter("user_email");
         String userTel = request.getParameter("user_tel");
 
-        User user = this.getRequestedUser(request);
+        User user = this.userBean.getCurrentUser();
 
         user.setName(userName);
         user.setAnschrift(userAnschrift);
@@ -121,15 +116,14 @@ public class UserEditServlet extends HttpServlet {
                 
         this.validationBean.validate(user, errors);
 
-        // Datensatz speichern
-        if (errors.isEmpty()) {
+       if (errors.isEmpty()) {
             this.userBean.update(user);
         }
 
         // Weiter zur nächsten Seite
         if (errors.isEmpty()) {
             // Keine Fehler: Startseite aufrufen
-            response.sendRedirect(WebUtils.appUrl(request, "/app/users/"));
+            response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));
         } else {
             // Fehler: Formuler erneut anzeigen
             FormValues formValues = new FormValues();
@@ -141,40 +135,6 @@ public class UserEditServlet extends HttpServlet {
 
             response.sendRedirect(request.getRequestURI());
         }
-    }
-
-    /**
-     * Aufgerufen in doPost: Vorhandene Aufgabe löschen
-     *
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
-     */
-    private void deleteUser(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        // Datensatz löschen
-        User user = this.getRequestedUser(request);
-        this.userBean.delete(user);
-
-        // Zurück zur Übersicht
-        response.sendRedirect(WebUtils.appUrl(request, "/app/users/"));
-    }
-
-    /**
-     * Zu bearbeitende Aufgabe aus der URL ermitteln und zurückgeben. Gibt
-     * entweder einen vorhandenen Datensatz oder ein neues, leeres Objekt
-     * zurück.
-     *
-     * @param request HTTP-Anfrage
-     * @return Zu bearbeitende Aufgabe
-     */
-    private User getRequestedUser(HttpServletRequest request) {
-        // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
-        User user = new User();
-        
-        return user;
     }
 
     /**
