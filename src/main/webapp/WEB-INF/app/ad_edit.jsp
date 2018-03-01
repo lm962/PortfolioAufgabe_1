@@ -44,7 +44,7 @@
                 <%-- Eingabefelder --%>
                 <label for="ad_category">Kategorie:</label>
                 <div class="side-by-side">
-                    <select name="ad_category">
+                    <select name="ad_category" ${disable}>
                         <option value="">Keine Kategorie</option>
 
                         <c:forEach items="${categories}" var="category">
@@ -56,9 +56,9 @@
                 </div>
                 <label for="ad_offertype">Angebotstyp:</label>
                 <div class="side-by-side">
-                    <select name="ad_offertype" value="${ad_form.values["ad_offertype"][0]}">
-                        <option value="Suche" ${readonlii}>Suche</option>
-                        <option value="Biete" ${readonlii}>Biete</option>
+                    <select name="ad_offertype" value="${ad_form.values["ad_offertype"][0]}" ${disable}>
+                        <option value="Suche">Suche</option>
+                        <option value="Biete">Biete</option>
                     </select>
                 </div>
                 <label for="ad_title">Titel:</label> 
@@ -67,13 +67,13 @@
                 </div>
                 <label for="ad_description">Beschreibung:</label>
                 <div class="side-by-side">
-                    <input type="text" name="ad_description" value="${ad_form.values["ad_description"][0]}" ${readonlii}>
+                    <input type="textarea" name="ad_description" value="${ad_form.values["ad_description"][0]}" ${readonlii}>
                 </div>
                 <label for="ad_price">Preis:</label>
                 <div class="side-by-side">
-                    <select name="ad_pricetype" value="${ad_form.values["ad_pricetype"][0]}">
-                        <option value="Festpreis" ${readonlii}>Festpreis</option>
-                        <option value="Verhandlungbasis"${readonlii}>Verhandlungbasis</option>
+                    <select name="ad_pricetype" value="${ad_form.values["ad_pricetype"][0]}" ${disable}>
+                        <option value="Festpreis" >Festpreis</option>
+                        <option value="Verhandlungbasis">Verhandlungbasis</option>
                     </select>
                     <input type="text" name="ad_price" value="${ad_form.values["ad_price"][0]}" ${readonlii}>
                 </div>

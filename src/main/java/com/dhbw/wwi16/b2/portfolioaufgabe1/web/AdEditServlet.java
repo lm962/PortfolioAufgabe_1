@@ -46,13 +46,16 @@ public class AdEditServlet extends HttpServlet{
 
     public void readOnly (HttpServletRequest request) throws ServletException, IOException {
         Ad ad = this.getRequestedTask(request);
-        if (ad.getUser().getUsername().equals(userBean.getCurrentUser().getUsername()) || ad.getUser() == null) {
         
-        request.setAttribute("readonlii","");    
+        if (ad.getUser().getUsername().equals(userBean.getCurrentUser().getUsername()) || ad.getUser() == null) {
+            request.setAttribute("readonlii","");
+            request.setAttribute("disable", "");
         }
         else {
-            String y = "readonly = 'readonly'";
-        request.setAttribute("readonlii",y);  
+            String r = "readonly = 'readonly'";
+            request.setAttribute("readonlii",r);
+            String d = "disabled";
+            request.setAttribute("disable", d);
         }
     }
         
