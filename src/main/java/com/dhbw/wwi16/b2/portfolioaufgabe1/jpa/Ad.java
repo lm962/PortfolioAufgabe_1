@@ -55,6 +55,9 @@ public class Ad implements Serializable {
     @Enumerated(EnumType.STRING)
     private Pricetype pricetype; 
     
+    public String getPriceString(){
+        return ""+ getPrice();
+    }
     
     public enum Offertype{
         Biete, Suche 

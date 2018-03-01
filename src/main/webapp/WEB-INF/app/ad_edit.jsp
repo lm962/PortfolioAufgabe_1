@@ -62,17 +62,23 @@
                         </c:forEach>
                     </select>
                 </div>
-                <label for="ad_offertype">Typ:</label>
+                <label for="ad_offertype">Preisart</label>
                 <div class="side-by-side">
-                    <input type="text" name="ad_offertype" value="${ad_form.values["ad_offertype"][0]}">
+                    <select name="ad_offertype" value="${ad_form.values["ad_offertype"][0]}">
+                        <option value="Suche">Suche</option>
+                        <option value="Biete">Biete</option>
+                    </select>
                 </div>
                 <label for="ad_price">Preis:</label>
                 <div class="side-by-side">
                     <input type="text" name="ad_price" value="${ad_form.values["ad_price"][0]}">
                 </div>
-                <label for="ad_pricetype">Preisart:</label>
+                <label for="ad_pricetype">Preisart</label>
                 <div class="side-by-side">
-                    <input type="text" name="ad_pricetype" value="${ad_form.values["ad_pricetype"][0]}">
+                    <select name="ad_pricetype" value="${ad_form.values["ad_pricetype"][0]}">
+                        <option value="Festpreis">Festpreis</option>
+                        <option value="Verhandlungbasis">Verhandlungbasis</option>
+                    </select>
                 </div>
 
                 <%-- Button zum Abschicken --%>

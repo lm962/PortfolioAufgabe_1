@@ -266,7 +266,10 @@ public class AdEditServlet extends HttpServlet{
         values.put("ad_description", new String[]{
             ad.getDescription()
         });
-
+        values.put("ad_price", new String[]{
+            ad.getPriceString()
+        });
+        
         FormValues formValues = new FormValues();
         formValues.setValues(values);
         return formValues;
